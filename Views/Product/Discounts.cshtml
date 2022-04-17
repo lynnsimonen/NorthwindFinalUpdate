@@ -1,0 +1,26 @@
+@using Northwind.Models
+@model IEnumerable<Discount>
+
+
+ @* <ul class="list-group">
+    @foreach (Discount d in Model) {
+        <li class="list-group-item"><a asp-controller="Product" asp-action="Discounts" asp-route-id="@d.DiscountId">@d.Code</a></li>
+    }  
+</ul>  *@
+
+<table class="table w-auto table-bordered table-hover">
+    <thead>
+        <tr>
+        <th scope="col-auto">Discount Name</th>
+        <th scope="col-auto" align="right">Discount Code</th>
+        <th scope="col-auto" align="right">Discount Description</th>
+        </tr>
+    </thead>
+    <tbody>
+      @foreach (Discount d in Model) {
+        <tr>
+            <th scope="row">@d.Title</th>
+            <td align="right">@d.Code</td>
+            <td align="left">@d.Description</td>
+        </tr>
+        }

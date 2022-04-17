@@ -1,0 +1,34 @@
+@using Northwind.Models
+@model IEnumerable<Category>
+
+<div class='report'>
+  
+<h1>Product Category</h1>
+  <div class="dropdown">
+    <select class="btn btn-secondary btn-lg dropdown-toggle" style:padding-top="10pixels" type="button"
+      id="CategoryId">
+      @foreach (Category c in Model)
+      {
+        if (c.CategoryId == ViewBag.id)
+        {
+          <option value="@c.CategoryId" selected>@c.CategoryName</option>
+        }
+        else
+        {
+          <option value="@c.CategoryId">@c.CategoryName</option>
+        }
+      }
+    </select>
+    </button>
+  </div>
+
+  <div id="chart_container">
+    <canvas id="reportOne" data-id="@ViewBag.id"></canvas>
+  </div>
+
+</div>
+
+
+@section Scripts {
+<script type="text/javascript" src="~/js/reportOne.js"></script>
+}

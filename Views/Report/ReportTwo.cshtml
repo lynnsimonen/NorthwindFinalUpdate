@@ -1,0 +1,36 @@
+@using Northwind.Models
+@model IEnumerable<Discount>
+
+
+@* @foreach (Category category in Model)
+  {
+  //create array then label it and use as data for chart!!!
+  <class="list-group-item"i><a asp-controller="Product" asp-action="Index"
+  asp-route-id="@category.CategoryId">@category.CategoryName - @category.Description</a>
+  </li>
+  } *@
+
+<div class="report">
+  <h1>ReportTwo: Discount Chart Example</h1>
+  <div class="dropdown">
+    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+      aria-expanded="false">
+      Discount Category
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+      @foreach (Discount discount in Model)
+      {
+        <button class="dropdown-item" i type="button" text-align="center" margin="auto" asp-controller="Report"
+        asp-action="ReportTwo" asp-route-id="@discount.DiscountId">@discount.Title</button>
+      }
+    </div>
+  </div>
+  <div id="chart_container">
+    <canvas id="reportTwo"></canvas>
+  </div>
+</div>
+
+
+@section Scripts {
+<script type="text/javascript" src="~/js/reportTwo.js"></script>
+}
