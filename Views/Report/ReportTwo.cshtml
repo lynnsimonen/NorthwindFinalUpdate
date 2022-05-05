@@ -1,36 +1,49 @@
 @using Northwind.Models
-@model IEnumerable<Discount>
+@model IEnumerable<Category>
 
 
-@* @foreach (Category category in Model)
-  {
-  //create array then label it and use as data for chart!!!
-  <class="list-group-item"i><a asp-controller="Product" asp-action="Index"
-  asp-route-id="@category.CategoryId">@category.CategoryName - @category.Description</a>
-  </li>
-  } *@
+@* <table class="table w-auto table-bordered table-hover">
+    <thead>
+        <tr>
+        <th scope="col-auto">Order ID</th>
+        <th scope="col-auto" align="right">Product ID</th>
+        <th scope="col-auto" align="right">Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+      @foreach (OrderDetail o in Model) {
+        <tr>
+            <th scope="row">@o.OrderDetailId</th>
+            <td align="right">@o.ProductId</td>
+            <td align="left">@o.Quantity</td>
+        </tr>
+        } *@
 
-<div class="report">
-  <h1>ReportTwo: Discount Chart Example</h1>
+
+
+
+<div class='report'>
+  <h1>Product Category</h1>
   <div class="dropdown">
-    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-      aria-expanded="false">
-      Discount Category
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-      @foreach (Discount discount in Model)
+    <select class="btn btn-secondary btn-lg dropdown-toggle" style:padding-top="10pixels" type="button" id="CategoryId">
+      @foreach (Category c in Model)
       {
-        <button class="dropdown-item" i type="button" text-align="center" margin="auto" asp-controller="Report"
-        asp-action="ReportTwo" asp-route-id="@discount.DiscountId">@discount.Title</button>
+        if (c.CategoryId == ViewBag.id)
+        {
+          <option value="@c.CategoryId" selected>@c.CategoryName</option>
+        }
+        else
+        {
+          <option value="@c.CategoryId">@c.CategoryName</option>
+        }
       }
-    </div>
+    </select>
+    </button>
   </div>
   <div id="chart_container">
-    <canvas id="reportTwo"></canvas>
+    <canvas id="reportTwo" data-id="@ViewBag.id"></canvas>
   </div>
 </div>
-
-
 @section Scripts {
 <script type="text/javascript" src="~/js/reportTwo.js"></script>
 }

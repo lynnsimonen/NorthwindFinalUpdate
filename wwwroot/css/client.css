@@ -86,6 +86,10 @@ a.navbar-brand {
   .discontinued {
     opacity: .5;
   }
+  
+  #product_rows tr {
+    cursor: pointer;
+}
 
 
   /* Sticky footer styles

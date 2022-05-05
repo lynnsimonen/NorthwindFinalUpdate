@@ -1,63 +1,143 @@
 
-//chart.js - ReportTwo: 
 $(function () {
-    // $('#reportOne').remove();
-    // $('#chart_container').append('<canvas id="reportOne"></canvas>');
-    const ctx2 = document.getElementById('reportTwo');
-    reportTwo = new Chart(ctx2, {
-        // let reportOne = document.getElementById('reportOne').getContext('2d');
-        // let NewChart = new Chart(reportOne, {
-        type: 'line',
-        data: {
-            labels: [
-                'January',
-                'February',
-                'March',
-                'April',
-                'May',
-                'June',
-            ],
+    var reportTwoLabels = [];
+    var reportTwoRevenue = [];
 
-            datasets: [{
-                label: 'Products?',
-                backgroundColor: ['gray'],
-                borderColor: 'black',
-                borderWidth: 1,
-                hoverBorderWidth: 3,
-                hoverBorderColor: 'black',
-                data: [55, 2, 25, 35, 55, 70, 1],
-                title: {display: true},
-            }]
-        },
-        options: {
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Report Two Title = Category',
-                    font: {
-                        size: 25
+    getGraph()
+
+    function getGraph() {
+        var id = $('#reportTwo').data('id');
+        $.getJSON(
+            {
+
+                url: '../../api/category/' + id + '/orderdetail',
+                success: function (response, textStatus, jqXhr) {
+                    reportTwoLabels.length = [];
+                    reportTwoRevenue = [];
+
+                    console.log(id);
+                    for (var i = 0; i < response.length; i++) {
+                        reportTwoLabels.push(response[i].productName);
+                    }
+
+                    for (var i = 0; i < response.length; i++) {
+                        reportTwoRevenue.push(response[i].revenue.toFixed(2));
+                    }
+
+                    // for (var i = 0; i < response.length; i++) {
+
+                    //     const dollars = new Intl.NumberFormat('en-US', {
+                    //         style: 'currency',
+                    //         currency: 'USD',
+                    //         minimumFractionDigits: 2,
+                    //     }).format(response[i].revenue);
+
+                    //     reportTwoRevenue.push(dollars);
+                    // }
+
+                    generateChartTwo();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // log the error to the console
+                    console.log("The following error occured: " + textStatus, errorThrown);
+                }
+            });
+    }
+
+    $('#CategoryId').on('change', function () {
+        Chart.getChart("reportTwo").destroy();
+        $('#reportTwo').data('id', $(this).val());
+        getGraph();
+    });
+
+
+    function generateChartTwo() {
+        const ctx1 = document.getElementById('reportTwo');
+        reportTwo = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: reportTwoLabels,
+                datasets: [{
+                    label: 'Revenue',
+                    data: reportTwoRevenue,
+                    backgroundColor: 'green',
+                    borderColor: 'black',
+                    borderWidth: 1,
+                    hoverBorderWidth: 3,
+                    hoverBorderColor: 'black',
+
+                }
+                ]
+            },
+            options: {
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem, data) {
+                            tooltipItem = tooltipItem.toString();
+                            tooltipItem = tooltipItem.split(/(?=(?:...)*$)/);
+                            tooltipItem = tooltipItem.join(',');
+                            return ('$' + tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                        }
                     },
-                    padding: {
-                        top: 30,
-                        bottom: 30
+                },
+                scales: {
+                    xAxes: {  
+                        //categoryPercentage: .5,                      
+                        barPercentage: 0.5,
+                        title: {
+                            display: true,
+                            text: 'Products',
+                            padding: 25,
+                            font: {
+                                size: 15
+                            },
+                        },
+                        align: 'center',
+                        color: 'black',
+                    },
+                    yAxes: {
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function (value, index, values) {
+                                value = value.toString();
+                                value = value.split(/(?=(?:...)*$)/);
+                                value = value.join(',');
+                                return '$' + value;
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Revenue',
+                            padding: 25,
+                            font: {
+                                size: 15
+                            },
+                        },
+                        align: 'center',
+                        color: 'black',
+                        padding: 15,
                     }
                 },
-                legend: {
-                    labels: {
-                        // This more specific font property overrides the global property
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'All Time Product Revenue',
                         font: {
-                            size: 15
+                            size: 45
                         },
-                        padding: 50
+                        padding: {
+                            top: 30,
+                            bottom: 70
+                        }
                     },
-                    position: 'bottom',
-                    fontColor: 'black',
-                    label: 'Products???',
-                },
-
+                    legend: {
+                        display: true,
+                        labels: {
+                            fontColor: 'black',
+                        }
+                    },
+                }
             }
-
-        }
-    })
+        })
+    }
 });
-

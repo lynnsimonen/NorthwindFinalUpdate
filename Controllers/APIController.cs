@@ -30,6 +30,17 @@ namespace Northwind.Controllers
 
         //returns all categories
         [HttpGet, Route ("api/category")]
-        public IEnumerable<Category> GetCategory() => _northwindContext.Categories.OrderBy(p => p.CategoryName);        
+        public IEnumerable<Category> GetCategory() => _northwindContext.Categories.OrderBy(p => p.CategoryName);
+         
+        [HttpPost, Route("api/addtocart")]
+        // adds a row to the cartitem table
+        public CartItem Post([FromBody] CartItemJSON cartItem) => _northwindContext.AddToCart(cartItem);
+
+        [HttpGet, Route("api/category/{CategoryId}/orderdetail")]
+        public IEnumerable<OrderDetailJSON> GetOrderDetails(int CategoryId) => _northwindContext.OrderDetails.Where(od => od.Product.CategoryId == CategoryId).GroupBy(od => od.Product.ProductName).Select(grp => new OrderDetailJSON { 
+          ProductName = grp.Key, 
+          Revenue = grp.Sum(x => x.Quantity * x.UnitPrice * (1 - x.Discount))
+        }).OrderByDescending(p => p.Revenue);
+
     }
 }

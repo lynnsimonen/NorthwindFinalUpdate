@@ -37,5 +37,7 @@ namespace Northwind.Models
 
         [Phone]
         public string Fax{ get; set; }
+
+        public ICollection<Order> Orders { get; set; }
     }
 }
