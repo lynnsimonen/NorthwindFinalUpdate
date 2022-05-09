@@ -1,27 +1,6 @@
 @using Northwind.Models
 @model IEnumerable<Category>
 
-
-@* <table class="table w-auto table-bordered table-hover">
-    <thead>
-        <tr>
-        <th scope="col-auto">Order ID</th>
-        <th scope="col-auto" align="right">Product ID</th>
-        <th scope="col-auto" align="right">Quantity</th>
-        </tr>
-    </thead>
-    <tbody>
-      @foreach (OrderDetail o in Model) {
-        <tr>
-            <th scope="row">@o.OrderDetailId</th>
-            <td align="right">@o.ProductId</td>
-            <td align="left">@o.Quantity</td>
-        </tr>
-        } *@
-
-
-
-
 <div class='report'>
   <h1>Product Category</h1>
   <div class="dropdown">

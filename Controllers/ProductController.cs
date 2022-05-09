@@ -16,8 +16,5 @@ namespace Northwind.Controllers
             ViewBag.id = id;
             return View(_northwindContext.Categories.OrderBy(c => c.CategoryName));
         }
-        //display all current product discounts (use valid date range) in a Bootstrap list view
-        //public IActionResult Discounts() => View(_NorthwindContext.Discounts.Where(d => d.StartTime <= DateTime.Now && d.EndTime > DateTime.Now).OrderBy(d => d.Code));
     }
 }
-// == id && d.EndTime > DateTime.Now

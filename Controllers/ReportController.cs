@@ -26,8 +26,6 @@ namespace Northwind.Controllers
         public IActionResult ReportTwo(int id){
             ViewBag.id = 1;
             return View(_northwindContext.Categories.OrderBy(c => c.CategoryName));
-            
-            // .OrderDetails.GroupBy(c => c.ProductId));
         }      
         
     }
